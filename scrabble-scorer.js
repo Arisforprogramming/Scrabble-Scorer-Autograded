@@ -35,6 +35,11 @@ function oldScrabbleScorer(word) {
 function initialPrompt() {
    console.log("Let's play some scrabble!");
    let userInput = input.question("\nEnter a word to score: "); 
+   /*console.log(`Which scoring algorithm would you like to use?
+
+   0 - Simple: One point per character
+   1 - Vowel Bonus: Vowels are worth 3 points
+   2 - Scrabble: Uses scrabble point system`)*/
    console.log(oldScrabbleScorer(userInput))
 
    return userInput;
@@ -46,41 +51,59 @@ let simpleScorer = function(word){
 
     let total = 0;
         word =  word.toUpperCase();
-     for(i= 0; i <= word.length; i++){
-         total += word.length;
-         return  total;
+     for(i= 0; i < word.length; i++){
+         total += 1;
      }
+     return  total;
 };  
    /* this console id just to test simpleScorer function
     console.log(simpleScorer("banana")) */
 
-let vowelBonusScorer = function(word){
+ let vowelBonusScorer = function(word){
     let total = 0;
         word = word.toUpperCase();
-    const vowels = "a,e,i,o,u"
-      for(let i=0; i<= word.length;i+3){
+    const vowels = "aeiou"
+      for(let i=0; i< word.length; i+3){
          if( vowels.includes(word)[i]) {
                total +=3
          }else {
                total +=1
          }
-         
+         return total;
       }
-      return total;
 };
-console.log(vowelBonusScorer("banana"));
+// when i add console.log here it stop the program from runing 
+let scrabbleScorer //= oldScrabbleScorer;
 
-let scrabbleScorer;
+const scoringAlgorithms = [] /*= [ 
+   {  
+      name : "Simple Score",
+      Description : "Each letter is worth 1 point.",
+      ScoreFunction : simpleScorer
+   },
+   {
+      name: "Bonus Vowels", 
+      description: "Vowels are 3 pts, consonants are 1 pt.",
+      scoringFunction : vowelBonusScorer
+   },
+   {
+      name: "Scrabble", 
+      description: "The traditional scoring algorithm.",
+      scoringFunction : scrabbleScorer
+   }
 
-const scoringAlgorithms = [];
+   ]; */
 
-function scorerPrompt() {}
+function scorerPrompt() {
+   
+
+
+}
 
 function transform() {};
 
 function runProgram() {
    initialPrompt();
-   
 }
 
 // Don't write any code below this line //
