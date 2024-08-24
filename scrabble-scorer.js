@@ -15,17 +15,22 @@ const oldPointStructure = {
 };
 
 function oldScrabbleScorer(word) {
-  word = word.toUpperCase();
+   word = word.toUpperCase();
   let letterPoints = "";
+  let total = 0
 
   for (let i = 0; i < word.length; i++) {
     for (const pointValue in oldPointStructure) {
       if (oldPointStructure[pointValue].includes(word[i])) {
-       // letterPoints += //`Points for '${word[i]}': ${pointValue}\n`;
+        letterPoints += `Points for '${word[i]}': ${pointValue}\n`
+        //total += Number(pointValue)
+      
       }
     }
+     
   }
   return letterPoints;
+  //return total
 }
 
 // your job is to finish writing these functions and variables that we've named //
@@ -37,8 +42,18 @@ function initialPrompt() {
    return word;
   
 }
+let newPointStructure = transform(oldPointStructure) ;
+//console.log("letter a: ", newPointStructure.a);
 
-let newPointStructure;
+/*let newPointStructure = function(){
+  let newPointStructure = {};
+  for (const pointValue in oldPointStructure){
+    for (let i = 0; i < oldPointStructure[pointValue].length; i++){
+      newPointStructure[oldPointStructure[pointValue][i].toLowerCase()] = Number(pointValue);
+    }
+  }
+  return newPointStructure;
+};*/
 
 let simpleScorer = function (word) {
   word = word.toUpperCase();
@@ -71,7 +86,42 @@ let vowelBonusScorer = function (word) {
   return total; // Return the total score
 }; 
 
-let scrabbleScorer;
+/*let scrabbleScorer = function (word) {
+  word = word.toUpperCase();
+  let letterPoints = "";
+  let total = 0
+  let letter = word[i].toLowerCase();
+
+  for (let i =0; i < word.length; i++) {
+   // for (newPoint in newPointStructure) {
+      if(newPointStructure.newPoint(letter)) {
+        //letterPoints += `Points for '${word[i]}': ${newPointStructure[newPoint]}\n`
+        total += Number(newPointStructure[newPoint])
+      }
+    }
+
+  return total;
+}*/
+
+let scrabbleScorer = function (word) {
+  word = word.toUpperCase();  // Convert the word to uppercase
+  let total = 0;  // Initialize total score
+
+  // Loop through each letter in the word
+  for (let i = 0; i < word.length; i++) {
+    let letter = word[i].toLowerCase();  // Convert the letter to lowercase
+
+    // Check if the letter exists in the newPointStructure
+    if (newPointStructure.hasOwnProperty(letter)) {
+      // Add the point value of the letter to the total score
+      total += newPointStructure[letter];
+    }
+  }
+
+  return total;  // Return the total score
+};
+
+
 
 const scoringAlgorithms = [
   {
@@ -87,7 +137,7 @@ const scoringAlgorithms = [
   {
       name: "Scrabble",
       description: "The traditional scoring algorithm.",
-      scorerFunction: oldScrabbleScorer
+      scorerFunction: scrabbleScorer
   }
 ];
 
@@ -111,17 +161,39 @@ function scorerPrompt(word) {
   
 }
 
-function transform() {}
+
+
+function transform(oldPointStructure) {
+  let transformScorer = {};  // Initialize an empty object to store the transformed scoring system.
+
+  for (let keyNum in oldPointStructure) {  // Loop through each key (keyNumber) in the oldPointStructure.
+   // console.log(pointItem)
+    let letterArray = oldPointStructure[keyNum];  // Get the array of letters associated with this keyNumber.
+   // console.log("letterArray", letterArray)
+    for (let i = 0; i < letterArray.length; i++) {  // Loop through each letter in the array.
+      transformScorer[letterArray[i].toLowerCase()] = Number(keyNum);  // Convert the letter to lowercase and assign its keyNumber and assigned to transformScoreer to be property as key.
+    }
+  }
+  return transformScorer;  // Return the transformed scoring object.
+  //return console.log(transformScorer);  // check how it printed out
+}
+
+
 
 function runProgram() {
-  let word = initialPrompt();
-  //let scorePrint = oldScrabbleScorer(1,word);
+  let word = initialPrompt();;
   //console.log(scorePrint);
+  // let scorePrint = oldScrabbleScorer(word);
+  // console.log(scorePrint);
   //let simpleScore = simpleScorer(word);
   //console.log(simpleScore);
   //let vowelCheck = vowelBonusScorer(word);
   //console.log(vowelCheck);
-  let choosenScore = scorerPrompt(word);
+ // console.log(scrabbleScorer)
+ 
+ scorerPrompt(word);
+ transform(oldPointStructure);
+ scrabbleScorer(word);
 }
 
 // Don't write any code below this line //
